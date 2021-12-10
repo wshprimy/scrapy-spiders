@@ -12,10 +12,11 @@ class LianjiaPipeline:
     items = {}
     
     def process_item(self, item, spider):
-        district = item['district']
+        item_temp = ItemAdapter(item).asdict()
+        district = item_temp['district']
         if district not in self.items:
             self.items[district] = []
-        item_list = list(item.values())[:-1]
+        item_list = list(item_temp.values())[:-1]
         self.items[district].append(item_list)
         return item
 
@@ -23,7 +24,7 @@ class LianjiaPipeline:
         headers = ['楼盘名称', '总价', '平米数', '单价']
         for district_name, items in self.items.items():
             with open(f'{district_name}.csv', 'w', newline='', encoding='GBK') as file:
-                file_csv = csv.writer((file))
+                file_csv = csv.writer(file)
                 file_csv.writerow(headers)
                 file_csv.writerows(items)
-            file.close()
+                file.close()

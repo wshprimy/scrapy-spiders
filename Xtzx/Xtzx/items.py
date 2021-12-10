@@ -7,6 +7,6 @@ import scrapy
 
 
 class XtzxItem(scrapy.Item):
-    name = scrapy.Field()
-    count = scrapy.Field()
+    school_name = scrapy.Field()
+    total_courses = scrapy.Field()
     pass
