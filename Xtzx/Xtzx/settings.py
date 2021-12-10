@@ -50,9 +50,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'Xtzx.middlewares.XtzxDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'Xtzx.middlewares.XtzxDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -62,9 +62,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'Xtzx.pipelines.XtzxPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'Xtzx.pipelines.XtzxPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

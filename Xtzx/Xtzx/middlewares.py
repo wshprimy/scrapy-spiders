@@ -7,7 +7,8 @@ from scrapy import signals
 
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
-
+from scrapy.http import HtmlResponse
+from selenium import webdriver
 
 class XtzxSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
@@ -55,7 +56,6 @@ class XtzxSpiderMiddleware:
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
 
-
 class XtzxDownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
@@ -72,13 +72,35 @@ class XtzxDownloaderMiddleware:
         # Called for each request that goes through the downloader
         # middleware.
 
+        driver_options = webdriver.ChromeOptions()
+        driver_options.add_argument('--headless')
+        driver_options.add_argument('--disable-gpu')
+        # driver_options.add_argument('--ignore-certificate-errors-spki-list')
+        # driver_options.add_argument('log-level=3')
+        driver = webdriver.Chrome(options = driver_options)
+
+        driver.get(request.url)
+        driver.implicitly_wait(30)
+        now_html = driver.page_source
+        try:
+            next_page = driver.find_element_by_xpath('/html/body/div[1]/div/div[2]/div[1]/div[3]/button[2]')
+            next_page.click()
+            driver.implicitly_wait(30)
+            next_page = driver.current_url
+            print('------------------------------')
+            spider.logger.info(f'middleWares next_page: {next_page}')
+            print('------------------------------')
+        except:
+            next_page = None
+        driver.quit()
+        return HtmlResponse(url=next_page, body=now_html, request=request, encoding='utf-8')
+
         # Must either:
         # - return None: continue processing this request
         # - or return a Response object
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
-        return None
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.

@@ -7,6 +7,6 @@ import scrapy
 
 
 class XtzxItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    name = scrapy.Field()
+    count = scrapy.Field()
     pass

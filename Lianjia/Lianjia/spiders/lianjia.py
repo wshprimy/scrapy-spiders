@@ -21,7 +21,7 @@ class LianjiaSpider(scrapy.Spider):
     def parse_district(self, response, **kwargs):
         self.logger.info(f'Recieved url: {response.url}')
         district_name = kwargs['district']
-        houses = [] # response.xpath('/html/body/div[4]/div[1]/ul/li')
+        houses = response.xpath('/html/body/div[4]/div[1]/ul/li')
         for house in houses:
             item = LianjiaItem()
             item['name'] = house.xpath('./div[1]/div[2]/div/a[1]/text()').get().strip()
