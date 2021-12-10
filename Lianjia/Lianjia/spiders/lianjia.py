@@ -21,7 +21,7 @@ class LianjiaSpider(scrapy.Spider):
     def parse_district(self, response, **kwargs):
         self.logger.info(f'Recieved url: {response.url}')
         district_name = kwargs['district']
-        houses = response.xpath('/html/body/div[4]/div[1]/ul/li')
+        houses = [] # response.xpath('/html/body/div[4]/div[1]/ul/li')
         for house in houses:
             item = LianjiaItem()
             item['name'] = house.xpath('./div[1]/div[2]/div/a[1]/text()').get().strip()
@@ -41,7 +41,11 @@ class LianjiaSpider(scrapy.Spider):
             next_page = response.url
             if page_now != 1:
                 next_page = next_page[:-4]
-            next_page = next_page + 'pg' + str(page_now + 1) + '/'
+            next_page = response.xpath('/html/body/div[4]/div[1]/div[7]/div[2]/div/@page-url').get()
+            next_page = next_page.replace('{page}', str(page_now + 1))
+            next_page = response.urljoin(next_page) + '/'
+            # next_page = response.xpath(f'/html/body/div[10]/a[{page_now + 1}]/@href').get()
+            # next_page = response.urljoin(next_page) + '/'
+            self.logger.info(f'Now url: {response.url}')
             self.logger.info(f'Next url: {next_page}')
-            # next_page = response.xpath('/html/body/div[4]/div[1]/div[7]/div[2]/div/a[last()]/@href').get()
             yield response.follow(next_page, callback=self.parse_district, cb_kwargs={'district': district_name, 'page_id': page_now + 1})
