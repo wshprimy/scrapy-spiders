@@ -20,7 +20,7 @@ print(data.isnull().sum(axis=0))
 print('--------------------')
 columns = ['PM_Dongsi', 'PM_Dongsihuan', 'PM_Nongzhanguan', 'PM_US Post']
 # 计算每一行四个pm2.5监测点的平均值
-meanpm = data[columns].mean(axis=1)
+meanpm = round(data[columns].mean(axis=1), 1)
 # 创建一个四个监测点名称到平均值的映射
 fill = {}.fromkeys(columns, meanpm)
 # 使用映射，将四个监测点的平均值替换某些监测点的空值

@@ -52,5 +52,9 @@ print('--------------------')
 print('均价离散化处理：')
 avgs = [0, 20000, 40000, 60000, 80000, 100000, 120000, 140000, 160000, 180000]
 cuts = pd.cut(data['均价'], avgs)
-print(pd.value_counts(cuts))
+calc = pd.value_counts(cuts).to_frame()
+total = calc.iloc[:, 0].sum()
+calc['百分比'] = 100 * calc.iloc[:, 0] / total
+calc.sort_index(axis=0, ascending=True, inplace=True)
+print(calc)
 print('--------------------')
