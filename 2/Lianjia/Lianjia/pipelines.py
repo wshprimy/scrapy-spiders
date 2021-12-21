@@ -17,7 +17,7 @@ class LianjiaPipeline:
         return item
     
     def close_spider(self, spider):
-        headers = ['名称', '地理位置1', '地理位置2', '地理位置3', '房型', '面积', '均价(元，整数)', '总价(万元，保留4位小数)']
+        headers = ['名称', '地理位置1', '地理位置2', '地理位置3', '房型', '面积', '均价', '总价']
         # ['name', 'location_area', 'location_town', 'location_exact', 'type', 'area', 'price', 'price_type']
         with open('loupan.csv', 'w', newline='', encoding='utf-8-sig') as file:
             file_csv = csv.writer(file)
